@@ -1,0 +1,59 @@
+<style type="text/css">
+  #panelBody_{{@preference.entityId}} {
+    position: relative;
+  }
+
+  #bulletin-container-{{@preference.entityId}} {
+    overflow: hidden;
+    height: 100px;
+  }
+
+  .bulletin-item-{{@preference.entityId}} {
+    position: absolute;
+    width: 100%;
+    transition: top 0.5s ease-in-out;
+  }
+
+  .person-avatar,
+  .person-avatar-ie8 {
+    background-size: contain;
+  }
+</style>
+
+<div class="personnel-card-section" style={{style-string this.bodyHeight}}>
+  <div class="person-info-container" style={{style-string this.personInfoContainerHeight}}>
+    <div class="card-info-wrapper">
+      <div class="person-info">
+        {{#if this.hasAvatar}}
+          <img src="{{@Data.data.memberAvatar}}" class="person-avatar" />
+        {{/if}}
+        <div class="person-detail" style={{style-string this.personDetailStyle}}>
+          <div class="member-name" style={{style-string this.memberNameStyle}} title="{{@Data.data.memberName}}">
+            {{@Data.data.memberName}}
+          </div>
+          <div class="member-post" style={{style-string this.memberPostStyle}} title="{{@Data.data.postName}}">
+            {{@Data.data.postName}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{#if this.hasBulletin}}
+    <div style={{style-string this.bulletinIconStyle}}>
+      <i class="vportal vp-bulletin"></i>
+    </div>
+    <div class="my-bulletin bulletin-container" id="bulletin-container-{{@preference.entityId}}" style={{style-string this.bulletinContainerStyle}} {{on "click" this.openBulletin}}>
+      {{#each @Data.data.bulList as |bulletin index|}}
+        <div style={{style-string (bulletin-item-style index)}} class="bulletin-item-{{@preference.entityId}} bulletin-item {{if (eq index 0) '' 'hidden'}}">
+          <div style="width: 100%">
+            <span style={{style-string this.bulletinTitleStyle}} title="{{bulletin.title}}">{{bulletin.title}}</span>
+          </div>
+          {{#unless bulletin.hadRead}}
+            <div class="unread-mark" id="unread_{{bulletin.id}}"></div>
+          {{/unless}}
+        </div>
+      {{/each}}
+    </div>
+  {{/if}}
+</div>
